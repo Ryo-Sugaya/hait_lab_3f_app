@@ -18,7 +18,7 @@ def pic_to_text(infile):
     client = vision.ImageAnnotatorClient()
 
     # Opens the input image file
-    with io.open(infile, "rb") as image_file:
+    with open(infile, "rb") as image_file:
         content = image_file.read()
 
     image = vision.Image(content=content)
@@ -48,7 +48,7 @@ def text_to_speech(text):
     # These Codes prevent the API from confusing text with
     # SSML commands
     # For example, '<' --> '&lt;' and '&' --> '&amp;'
-    outputfile = "output.mp3"
+    outputfile = "./output/output.mp3"
     escaped_lines = html.escape(text)
 
     # Convert plaintext to SSML in order to wait two seconds
@@ -63,7 +63,7 @@ def text_to_speech(text):
     # Sets the text input to be synthesized
     synthesis_input = texttospeech.SynthesisInput(ssml=ssml)
 
-    # Builds the voice request, selects the language code ("en-US") and
+    # Builds the voice request, selects the language code ("Ja-JP") and
     # the SSML voice gender ("MALE")
     voice = texttospeech.VoiceSelectionParams(
         language_code="ja-JP", ssml_gender=texttospeech.SsmlVoiceGender.MALE
@@ -80,7 +80,7 @@ def text_to_speech(text):
     request = texttospeech.SynthesizeSpeechRequest(
         input=synthesis_input, voice=voice, audio_config=audio_config
     )
-
+ 
     response = client.synthesize_speech(request=request)
 
     # Writes the synthetic audio to the output file.
@@ -90,13 +90,4 @@ def text_to_speech(text):
 
     return outputfile   
 
-def run(infile):
-    text = pic_to_text(infile)
-    print(text)
-    return text_to_speech(text)
 
-if __name__ == '__main__':
-
-    # テスト用
-    infile = "text_sample.jfif"
-    run(infile)
