@@ -1,7 +1,7 @@
 from logging import error
 import os
 import io
-from flask import Flask,render_template,request,redirect,url_for,flash,session
+from flask import Flask,render_template,request,session
 import base64
 from apis import text_to_speech, pic_to_text
 import imghdr
@@ -10,14 +10,11 @@ app = Flask(__name__,static_folder='./output')
 
 app.secret_key = 'hogehoge'
 UPLOAD_FOLDER = './upload'
-OUTPUT_FOLDER = './output'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 ALLOWED_EXTENSIONS = ['jpg', 'jpeg','png','jfif']
 
 def allowed_file(filetype):
     return filetype in ALLOWED_EXTENSIONS
-
 
 @app.route('/',methods = ['POST','GET'])
 def result():
@@ -27,7 +24,7 @@ def result():
         file_type = imghdr.what(img_file)
 
         if not allowed_file(file_type):
-            error = '拡張子が不適切です。'
+            error = '拡張子が不適切かファイルを添付していない可能性があります。'
             return render_template('index.html',error = error)
 
         filename = 'input.' + file_type
