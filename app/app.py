@@ -6,11 +6,14 @@ import base64
 from apis import text_to_speech, pic_to_text
 import imghdr
 
-app = Flask(__name__,static_folder='./output')
+
+app = Flask(__name__,static_folder='static',template_folder='templates')
 
 app.secret_key = 'hogehoge'
 UPLOAD_FOLDER = './upload'
+OUTPUT_FOLDER = '../'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 ALLOWED_EXTENSIONS = ['jpg', 'jpeg','png','jfif']
 
 def allowed_file(filetype):
@@ -23,16 +26,13 @@ def result():
         img_file = request.files['img_file']
         file_type = imghdr.what(img_file)
 
-        if not allowed_file(file_type):
-            error = '拡張子が不適切かファイルを添付していない可能性があります。'
-            return render_template('index.html',error = error)
-
         filename = 'input.' + file_type
         infile_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         img_file.save(infile_path)
         text = pic_to_text(infile_path)
         voice = text_to_speech(text)
-        return render_template('result.html',text = text, voice_path = voice)
+        voice_path = os.path.join(app.config['OUTPUT_FOLDER'],voice)
+        return render_template('result.html',text = text, voice_path = voice_path)
     
     else:
         return render_template('index.html')

@@ -1,5 +1,6 @@
 import html
 import io
+import shutil
 
 # Imports the Google Cloud client libraries
 from google.api_core.exceptions import AlreadyExists
@@ -48,7 +49,7 @@ def text_to_speech(text):
     # These Codes prevent the API from confusing text with
     # SSML commands
     # For example, '<' --> '&lt;' and '&' --> '&amp;'
-    outputfile = "./output/output.mp3"
+    outputfile = "static/output/output.mp3"
     escaped_lines = html.escape(text)
 
     # Convert plaintext to SSML in order to wait two seconds

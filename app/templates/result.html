@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang = "ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>結果が表示されます</title>
+    <meta name = "description content" = "ちゃんと表示されていますか？">
+    <!-- Favicon-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../static/css/styles.css" rel="stylesheet" />
+</head>
+
+  <body class = "bg-pink">
+    <section>
+      <div class="container.fluid px-4 px-lg-5">
+          <div class="row gx-4 gx-lg-5">
+              <div class="col-lg-6">
+                  <h1 class="mt-5">音声が抽出できました！</h1>
+                  <p><audio src = {{voice_path}} controls></audio></p>
+              </div>
+          </div>
+      </div>
+      <div class="container px-4 px-lg-5 bg-white">
+        <div class = "row gx-4 gx-lg-4">
+          <div class = "col-lg-6">
+            <h2 class="mt-5">以下はテキストです</h2>
+            <p class = "mt-5 mb-5">{{text}}</p>
+          </div>
+        </div>
+      </div>
+  </section>
+  </body>
+</html>
